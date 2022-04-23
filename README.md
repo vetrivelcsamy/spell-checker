@@ -4,6 +4,8 @@
  
  - clone the repository
  - cd into the directory
+   - copy .env.example to .env
+    - make sure add [Textgears API key](https://textgears.com/api) to .env file 
  - `yarn install` or `npm install`
     - `yarn start` or `npm run start`
     
