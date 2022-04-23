@@ -12,12 +12,10 @@ const SpellChecker = () => {
   const [wordsLength, setWordsLength] = useState(0);
   const [showSuggestionList, setShowSuggestionList] = useState(false);
   const [top, setTop] = useState();
-  const [left, setLeft] = useState();
-  
 
   const checkSpelling = useCallback(async () => {
     const text = textareaRef.current.innerText.replaceAll("\n", " ");
-    const textLength = text.split('').length;
+    const textLength = text.split("").length;
     const words = text.split(" ");
     setWordsLength(words.length);
     setCharacters(textLength);
@@ -47,7 +45,6 @@ const SpellChecker = () => {
       setId(event.target.id);
       setShowSuggestionList(true);
       setTop(textareaRef.current.offsetTop || event.target.offsetTop);
-      setLeft(textareaRef.current.offsetLeft || event.target.offsetLeft);
       const res = await RequestText(text);
       if (res.errrors || []) {
         setSuggestions(
@@ -76,30 +73,22 @@ const SpellChecker = () => {
 
   return (
     <>
-    <div className="container">
-      <div
-        contentEditable
-        autoFocus
-        id="spelling-checker"
-        className="editor"
-        spellCheck={false}
-        ref={textareaRef}
-        onInput={checkSpelling}
-        onChange={checkSpelling}
-        onContextMenu={getSuggestions}
-      />
+      <div className="container">
+        <div
+          contentEditable
+          autoFocus
+          id="spelling-checker"
+          className="editor"
+          spellCheck={false}
+          ref={textareaRef}
+          onInput={checkSpelling}
+          onChange={checkSpelling}
+          onContextMenu={getSuggestions}
+        />
         {showSuggestionList && (
-            <div
-                className="suggestion-list"
-                style={{
-                    top: top,
-                    left: left,
-                }}>
-                <Suggestions
-                    suggestions={suggestions}
-                    replaceWord={replaceWord}
-                />
-            </div>
+          <div style={{ top: top + "px" }} className="suggestion-list">
+            <Suggestions suggestions={suggestions} replaceWord={replaceWord} />
+          </div>
         )}
         <Stats wordsLength={wordsLength} characters={characters} />
       </div>

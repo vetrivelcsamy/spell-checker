@@ -8,7 +8,7 @@ const Suggestions = (props) => {
             key={index}
             className="suggestion-item"
             onClick={replaceWord}>
-            {s}
+           <span>{s}</span>
           </li>
          ))}
       </ul>
