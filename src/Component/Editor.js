@@ -4,6 +4,7 @@ const Editor = (props) => {
       <div
         contentEditable
         autoFocus
+        placeholder="Type here..."
         id="spelling-checker"
         className="editor"
         spellCheck={false}
