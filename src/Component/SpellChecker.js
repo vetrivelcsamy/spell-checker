@@ -1,11 +1,12 @@
 import { useState, useRef, useCallback } from "react";
 import { RequestText } from "../utils/requesttext";
 import { moveCaretToEnd } from "../utils/movecarettoend";
-import Stats from "./Stats";
+import Editor from "./Editor";
 import Suggestions from "./Suggestions";
+import Stats from "./Stats";
 
 const SpellChecker = () => {
-  const textareaRef = useRef();
+  const textareaRef = useRef(null);
   const [suggestions, setSuggestions] = useState([]);
   const [id, setId] = useState(null);
   const [characters, setCharacters] = useState(0);
@@ -24,14 +25,13 @@ const SpellChecker = () => {
     res.errors.forEach((e) => {
       missSpellWords.add(e.bad, e);
     });
-    let correctText = text.split(" ");
-    correctText = correctText
-      .map((text, index) => {
-        if (missSpellWords.has(text.trim())) {
-          const htmlFrag = `<span class='spell-error' id=${index}>${text}</span>`;
-          return htmlFrag;
+    let correctText = text
+      .split(" ")
+      .map((word, index) => {
+        if (missSpellWords.has(word.trim())) {
+          return `<span class='spell-error' id=${index}>${word}</span>`;
         }
-        return `<span id=${index}>${text}</span>`;
+        return `<span id=${index}>${word}</span>`;
       })
       .join(" ");
     textareaRef.current.innerHTML = correctText;
@@ -74,16 +74,10 @@ const SpellChecker = () => {
   return (
     <>
       <div className="container">
-        <div
-          contentEditable
-          autoFocus
-          id="spelling-checker"
-          className="editor"
-          spellCheck={false}
-          ref={textareaRef}
-          onInput={checkSpelling}
-          onChange={checkSpelling}
-          onContextMenu={getSuggestions}
+        <Editor
+          textareaRef={textareaRef}
+          checkSpelling={checkSpelling}
+          getSuggestions={getSuggestions}
         />
         {showSuggestionList && (
           <div style={{ top: top + "px" }} className="suggestion-list">
